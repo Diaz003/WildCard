@@ -1,36 +1,33 @@
-# src/entities/animation.py
-import os
+# entities/animation.py
 import pygame
+import os
 
 class Animation:
-    def __init__(self, sprite_folder, frame_duration=100):
-        self.frames = {}
-        self.current_animation = 'idle'
+    def __init__(self, sprite_folder, frame_duration=0.1):
+        self.frames = self.load_frames(sprite_folder)
         self.frame_index = 0
-        self.last_update = pygame.time.get_ticks()
         self.frame_duration = frame_duration
-        
-        # Cargar todas las animaciones
-        for animation_name in os.listdir(sprite_folder):
-            animation_path = os.path.join(sprite_folder, animation_name)
-            if os.path.isdir(animation_path):
-                self.frames[animation_name] = []
-                for frame_file in sorted(os.listdir(animation_path)):
-                    frame_path = os.path.join(animation_path, frame_file)
-                    image = pygame.image.load(frame_path).convert_alpha()
-                    self.frames[animation_name].append(image)
+        self.timer = 0.0
 
-    def update(self, animation_name):
-        # Cambiar animación si es diferente
-        if animation_name != self.current_animation:
-            self.current_animation = animation_name
-            self.frame_index = 0
-        
-        # Avanzar frame
-        now = pygame.time.get_ticks()
-        if now - self.last_update > self.frame_duration:
-            self.frame_index = (self.frame_index + 1) % len(self.frames[self.current_animation])
-            self.last_update = now
+    def load_frames(self, folder_path):
+        try:
+            files = sorted(
+                [f for f in os.listdir(folder_path) if f.endswith('.png')],
+                key=lambda x: int(x.split('_')[-1].split('.')[0])  # Para nombres como "Corazon8_0001.png"
+            )
+            return [pygame.image.load(os.path.join(folder_path, f)).convert_alpha() for f in files]
+        except FileNotFoundError:
+            print(f"Error: Carpeta {folder_path} no encontrada")
+            return [pygame.Surface((100, 140))]  # Frame temporal
+        except Exception as e:
+            print(f"Error cargando animación: {e}")
+            return [pygame.Surface((100, 140))]
+
+    def update(self, dt):
+        self.timer += dt
+        if self.timer >= self.frame_duration:
+            self.timer = 0
+            self.frame_index = (self.frame_index + 1) % len(self.frames)
 
     def get_current_frame(self):
-        return self.frames[self.current_animation][self.frame_index]
+        return self.frames[self.frame_index]

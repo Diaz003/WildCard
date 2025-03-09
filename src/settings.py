@@ -3,8 +3,8 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 FPS = 60
 BG_COLOR = (30, 30, 30)
-PLAYER_SPEED = 5
-ENEMY_SPEED = 2
+PLAYER_SPEED = 300  # Píxeles por segundo (no por frame)
+ENEMY_SPEED = 150
 
 # Colores
 RED = (255, 0, 0)

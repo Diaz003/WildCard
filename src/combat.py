@@ -1,48 +1,50 @@
 # src/combat.py
 import pygame
+import random
 from src.settings import *
+from src.entities.cards import Card
 
 class Combat:
     def __init__(self, player, enemy):
         self.player = player
         self.enemy = enemy
-        self.cards = ["Ataque", "Defensa", "Hechizo"]  # Cartas básicas
-        self.selected_card = None
+        self.cards = self.generate_cards()
         self.font = pygame.font.Font(None, 36)
-        self.combat_active = True
+        self.background = self.load_background()
+
+    def generate_cards(self):  # <-- Método dentro de la clase
+        values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+        return [Card(random.choice(values)) for _ in range(5)]
+
+    def load_background(self):
+        bg = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+        bg.set_alpha(200)
+        bg.fill((0, 0, 0))
+        return bg
 
     def handle_events(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                self.selected_card = self.cards[0]
-            elif event.key == pygame.K_2:
-                self.selected_card = self.cards[1]
-            elif event.key == pygame.K_3:
-                self.selected_card = self.cards[2]
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for card in self.cards:
+                if card.rect.collidepoint(event.pos):
+                    self.resolve_combat(card)
 
-    def resolve_combat(self):
-        if self.selected_card == "Ataque":
-            self.enemy.health -= 20
-        elif self.selected_card == "Defensa":
-            self.player.health += 10
-        elif self.selected_card == "Hechizo":
-            self.enemy.health -= 15
-            
-        self.combat_active = False
+    def resolve_combat(self, card):
+        if card.value.isdigit():
+            damage = int(card.value) * 2
+        else:
+            damage = 15
+        
+        self.enemy.health -= damage
+        self.player.take_damage(5)
+
+    def update(self, dt, mouse_pos):
+        for card in self.cards:
+            card.update(dt, mouse_pos)
 
     def draw(self, screen):
-        # Fondo del combate
-        pygame.draw.rect(screen, (40, 40, 40), (200, 100, 800, 400))
+        screen.blit(self.background, (0, 0))
+        text = self.font.render("¡COMBATE! Selecciona una carta", True, WHITE)
+        screen.blit(text, (WINDOW_WIDTH//2 - text.get_width()//2, 50))
         
-        # Texto del combate
-        text = self.font.render("¡COMBATE! Elige una carta:", True, WHITE)
-        screen.blit(text, (300, 150))
-        
-        # Cartas
         for i, card in enumerate(self.cards):
-            card_rect = pygame.Rect(300 + i*200, 250, 150, 200)
-            pygame.draw.rect(screen, (70, 70, 70), card_rect)
-            text = self.font.render(card, True, WHITE)
-            screen.blit(text, (card_rect.x + 20, card_rect.y + 20))
-            text = self.font.render(f"({i+1})", True, WHITE)
-            screen.blit(text, (card_rect.x + 20, card_rect.y + 170))
+            card.draw(screen, 200 + i*250, WINDOW_HEIGHT//2 - 70)

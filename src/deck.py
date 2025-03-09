@@ -1,4 +1,4 @@
-from cards import Card
+from src.entities.cards import Card
 
 class Deck:
     def __init__(self):

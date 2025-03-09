@@ -1,5 +1,6 @@
+# src/menu.py
 import pygame
-from src.settings import WINDOW_WIDTH, WINDOW_HEIGHT, WHITE, BUTTON_COLOR, BUTTON_HOVER_COLOR, BG_COLOR
+from src.settings import *
 
 class Button:
     def __init__(self, text, x, y, width, height, action=None):

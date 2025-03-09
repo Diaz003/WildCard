@@ -1,8 +1,9 @@
 import pygame
 from src.settings import *
-from src.menu import Menu
-from src.entities.player import Player
-from src.entities.enemy import Enemy
+from src.menu import Menu  # <-- Agrega "src."
+from src.entities.player import Player  # <-- Agrega "src."
+from src.entities.enemy import Enemy  # <-- Agrega "src."
+from src.combat import Combat
 
 class Game:
     def __init__(self):
@@ -14,13 +15,14 @@ class Game:
         self.player = Player()
         self.enemies = [Enemy() for _ in range(5)]
         self.game_state = "MENU"
+        self.combat = None
 
     def run(self):
         while True:
+            self.dt = self.clock.tick(FPS) / 1000  # Convierte a segundos
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(FPS)
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -39,9 +41,18 @@ class Game:
 
     def update(self):
         if self.game_state == "PLAYING":
-            self.player.update()
+            self.player.update(self.dt)
+            self.enemies = [enemy for enemy in self.enemies if enemy.health > 0]
+    
             for enemy in self.enemies:
-                enemy.update(self.player.rect)
+                enemy.update(self.player.rect, self.dt)  # <-- Pasa dt al enemigo
+                if self.player.rect.colliderect(enemy.rect):
+                    self.start_combat(enemy)
+    
+    def start_combat(self, enemy):
+        self.game_state = "COMBAT"
+        self.combat_enemy = enemy
+        self.combat = Combat(self.player, enemy)
 
     def draw(self):
         if self.game_state == "MENU":
@@ -54,12 +65,18 @@ class Game:
             self.player.draw(self.screen)
             for enemy in self.enemies:
                 enemy.draw(self.screen)
-            
-            # Dibujar HUD
-            self.draw_health_bar()
-            self.draw_timer()
+        elif self.game_state == "COMBAT":
+            self.combat.draw(self.screen)
+            self.draw_combat_stats()
         
         pygame.display.update()
+
+    def draw_combat_stats(self):
+        # Salud del jugador
+        pygame.draw.rect(self.screen, (0,255,0), (100, 500, self.player.health, 20))
+
+        # Salud del enemigo
+        pygame.draw.rect(self.screen, (255,0,0), (1000, 500, self.combat_enemy.health, 20))
 
     def draw_health_bar(self):
         bar_width = 200

@@ -1,6 +1,5 @@
 import pygame
-from src.game import Game
-from .settings import WINDOW_WIDTH, WINDOW_HEIGHT, FPS 
+from src.game import Game  
 
 def main():
     pygame.init()
