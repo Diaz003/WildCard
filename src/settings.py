@@ -1,13 +1,13 @@
 # Configuración general
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
 FPS = 60
-
-# Configuración del jugador
+BG_COLOR = (30, 30, 30)
 PLAYER_SPEED = 5
-PLAYER_SIZE = (40, 60)
+ENEMY_SPEED = 2
 
-# Configuración de los enemigos
-ENEMY_SPEED_RANGE = (2, 4)
-ENEMY_SIZE = (40, 40)
-NUM_ENEMIES = 5
+# Colores
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+BUTTON_COLOR = (70, 70, 70)
+BUTTON_HOVER_COLOR = (100, 100, 100)
