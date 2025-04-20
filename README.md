@@ -148,3 +148,44 @@ En resumen, **WildCard** es un juego que ofrece más que solo ganar: se trata de
 
 - Python 3.11 + Pygame 2.5
 - MongoDB Atlas para persistencia de datos
+
+
+## 🃏 WildCard - Versión v3.0
+
+¡Lanzamos una nueva versión cargada de mejoras, narrativa intensa y mucha estrategia! 🔥
+
+### ✨ Novedades destacadas:
+
+- 📖 **Nueva narrativa psicológica**:
+  - Protagonista: Jack, atrapado en un mundo distorsionado.
+  - Etapas emocionales: Negación, Ira, Negociación, Depresión y Redención.
+  - Sistema de corrupción visual del personaje según el progreso.
+
+- ⚔️ **Mejora en el sistema de combate**:
+  - Las manos de póker desbloquean poderes especiales.
+  - Cartas malditas con efectos negativos duraderos.
+  - Sistema de apuestas con consecuencias narrativas.
+
+- 🧠 **IA avanzada**:
+  - Oponentes virtuales con niveles de dificultad adaptativos.
+
+- 🕹️ **Cambio de tecnología**:
+  - Migración a **Python** + **Pygame**.
+  - Uso de **MongoDB Atlas** para persistencia de datos.
+  - Pixel art creado con **Pixelorama** y efectos visuales con **GLSL Shaders**.
+
+- 🖼️ **Nuevos sprites y animaciones**:
+  - Integración de imágenes animadas.
+  - Mejora visual de la interfaz del jugador.
+
+### 📁 Estructura del proyecto
+
+```plaintext
+WildCard/
+├── assets/            # Sprites, sonidos, fuentes
+├── src/               # Código fuente en Python
+│   ├── main.py
+│   ├── game.py
+│   ├── player.py
+│   ├── ...
+├── README.md          # Documentación completa del proyecto
