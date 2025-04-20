@@ -1,3 +1,5 @@
+# src/ui.py
+
 import pygame
 
 class UI:

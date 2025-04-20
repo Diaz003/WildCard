@@ -1,3 +1,5 @@
+# src/entities/enemies.py
+
 import pygame
 import random
 from src.settings import *

@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: wildcard
+Version: 0.1.0
+Requires-Dist: pygame
+Requires-Dist: pymongo
+Dynamic: requires-dist

@@ -24,17 +24,17 @@ class Button:
 class Menu:
     def __init__(self):
         self.buttons = [
-            Button("Jugar", WINDOW_WIDTH//2 - 100, 250, 200, 50, "play"),
-            Button("Opciones", WINDOW_WIDTH//2 - 100, 350, 200, 50, "options"),
-            Button("Salir", WINDOW_WIDTH//2 - 100, 450, 200, 50, "quit")
+            Button("Jugar", WINDOW_WIDTH//2 - 100, 200, 200, 50, "play"),
+            Button("Tutorial", WINDOW_WIDTH//2 - 100, 270, 200, 50, "tutorial"),
+            Button("Opciones", WINDOW_WIDTH//2 - 100, 340, 200, 50, "options"),
+            Button("Salir", WINDOW_WIDTH//2 - 100, 410, 200, 50, "quit")
         ]
 
     def draw(self, screen):
         screen.fill(BG_COLOR)
         font = pygame.font.Font(None, 72)
         title = font.render("WILDCARD", True, WHITE)
-        title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 150))
+        title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 100))
         screen.blit(title, title_rect)
-        
         for button in self.buttons:
             button.draw(screen)
